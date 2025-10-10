@@ -1,8 +1,10 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from .models import Building, SpaceType, Space, Reservation, FloorPlan, Notification
 from .widgets import ImageMapWidget
 from django import forms
 from .admin_site import admin_site
+from .forms import ReservationAdminForm
 
 # Now register your models
 class BuildingAdmin(admin.ModelAdmin):
@@ -10,9 +12,17 @@ class BuildingAdmin(admin.ModelAdmin):
     search_fields = ['name', 'address']
 
 class FloorPlanAdmin(admin.ModelAdmin):
-    list_display = ['building', 'floor_name', 'plan_image']
+    list_display = ['building', 'floor_name', 'image_preview']
     list_filter = ['building']
-    search_fields = ['floor_name']
+    search_fields = ['building__name', 'floor_name']
+
+    def image_preview(self, obj):
+        if obj.plan_image:
+            return format_html('<img src="{}" width="100" />', obj.plan_image.url)
+        elif obj.plan_image_url:
+            return format_html('<img src="{}" width="100" />', obj.plan_image_url)
+        return "No Image"
+    image_preview.short_description = 'Preview'
 
 class SpaceTypeAdmin(admin.ModelAdmin):
     list_display = ['type', 'description']
@@ -60,10 +70,36 @@ class SpaceAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 class ReservationAdmin(admin.ModelAdmin):
-    list_display = ['title', 'space', 'user', 'start_datetime', 'end_datetime', 'status']
-    list_filter = ['status', 'building', 'space']
-    search_fields = ['title', 'description', 'user__email']
-    date_hierarchy = 'start_datetime'
+    form = ReservationAdminForm
+    list_display = ['space', 'start_datetime', 'end_datetime', 'status']
+    list_filter = ['space__building', 'status']
+    search_fields = ['space__name']
+    exclude = ['user', 'status']  # Hide these fields from the form
+    
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        if not obj:  # If adding new reservation
+            # Instead of setting on form.instance, we'll use initial data
+            form.initial = {
+                'user': request.user.id,
+                'status': 'pending'
+            }
+        return form
+
+    def save_model(self, request, obj, form, change):
+        if not change:  # If creating new reservation
+            obj.user = request.user
+            obj.status = 'pending'
+        super().save_model(request, obj, form, change)
+
+    class Media:
+        css = {
+            'all': ('admin/css/floor-plan.css',)
+        }
+        js = (
+            'admin/js/floor-plan.js',
+            'admin/js/reservation.js',
+        )
 
 class NotificationAdmin(admin.ModelAdmin):
     list_display = ['reservation', 'user', 'status', 'created_at']

@@ -17,12 +17,25 @@ class Building(models.Model):
         return self.name
 
 class FloorPlan(models.Model):
-    building = models.ForeignKey(Building, on_delete=models.CASCADE, related_name='floor_plans')
-    floor_name = models.CharField(max_length=50)  # ex: "ANDAR 1", "ANDAR -1"
-    plan_image = models.URLField()
-    
-    class Meta:
-        unique_together = ['building', 'floor_name']
+    building = models.ForeignKey('Building', on_delete=models.CASCADE)
+    floor_name = models.CharField(max_length=50)
+    plan_image = models.ImageField(
+        upload_to='floor_plans/',
+        null=True,
+        blank=True,
+        help_text="Upload da imagem da planta"
+    )
+    plan_image_url = models.URLField(
+        max_length=500,
+        null=True,
+        blank=True,
+        help_text="URL externa da imagem (opcional)"
+    )
+
+    def get_image(self):
+        if self.plan_image:
+            return self.plan_image.url
+        return self.plan_image_url
 
     def __str__(self):
         return f"{self.building.name} - {self.floor_name}"
@@ -85,18 +98,14 @@ class Reservation(models.Model):
         ('in_progress', 'Em Andamento'),
     ]
 
-    building = models.ForeignKey(
-        Building, 
+    building = models.ForeignKey(Building, on_delete=models.CASCADE)
+    floor = models.ForeignKey(
+        FloorPlan, 
         on_delete=models.CASCADE,
-        null=True,  # Temporariamente permitir null
+        null=True,  # Allow null temporarily for migration
         blank=True
     )
-    space = models.ForeignKey(
-        Space, 
-        on_delete=models.CASCADE,
-        null=True,  # Temporariamente permitir null
-        blank=True
-    )
+    space = models.ForeignKey(Space, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Add this line
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=1400)
@@ -116,28 +125,15 @@ class Reservation(models.Model):
         ]
 
     def clean(self):
-        # Validar que o horário final é depois do inicial
-        if self.end_datetime <= self.start_datetime:
-            raise ValidationError('O horário final deve ser depois do horário inicial.')
-
-        # Validar que a reserva não sobrepõe outras reservas aprovadas
-        if self.pk is None:  # Nova reserva
-            overlapping_reservations = Reservation.objects.filter(
-                space=self.space,
-                status='approved',
-                start_datetime__lt=self.end_datetime,
-                end_datetime__gt=self.start_datetime
-            )
-        else:  # Reserva existente sendo editada
-            overlapping_reservations = Reservation.objects.filter(
-                space=self.space,
-                status='approved',
-                start_datetime__lt=self.end_datetime,
-                end_datetime__gt=self.start_datetime
-            ).exclude(pk=self.pk)
-
-        if overlapping_reservations.exists():
-            raise ValidationError('Já existe uma reserva aprovada para este horário.')
+        super().clean()
+        if not self.floor:
+            raise ValidationError({'floor': 'Floor plan is required'})
+        # Validate that space belongs to selected floor
+        if self.space and self.floor and self.space.floor != self.floor:
+            raise ValidationError({'space': 'Selected space must belong to the selected floor'})
+        # Validate that floor belongs to selected building
+        if self.floor and self.building and self.floor.building != self.building:
+            raise ValidationError({'floor': 'Selected floor must belong to the selected building'})
 
     def save(self, *args, **kwargs):
         self.clean()

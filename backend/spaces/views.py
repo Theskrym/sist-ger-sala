@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status
-from rest_framework.decorators import action, api_view
+from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from .models import Building, SpaceType, Space, Reservation, FloorPlan
@@ -111,10 +111,31 @@ class ReservationViewSet(viewsets.ModelViewSet):
         return Response({'status': 'Reserva cancelada'})
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def get_floor_plan(request, plan_id):
     floor_plan = get_object_or_404(FloorPlan, id=plan_id)
     return Response({
-        'plan_image': floor_plan.plan_image.url if hasattr(floor_plan.plan_image, 'url') else floor_plan.plan_image,
-        'floor_name': floor_plan.floor_name,
-        'building_name': floor_plan.building.name
+        'plan_image': request.build_absolute_uri(floor_plan.plan_image.url) if floor_plan.plan_image else None,
+        'plan_image_url': floor_plan.plan_image_url,
+        'floor_name': str(floor_plan)
     })
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_building_floors(request, building_id):
+    floors = FloorPlan.objects.filter(building_id=building_id)
+    return Response([{
+        'id': floor.id,
+        'name': str(floor)
+    } for floor in floors])
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_floor_spaces(request, floor_id):
+    spaces = Space.objects.filter(floor_id=floor_id)
+    return Response([{
+        'id': str(space.id),
+        'name': str(space),
+        'location_x': space.location_x,
+        'location_y': space.location_y
+    } for space in spaces])
