@@ -1,9 +1,10 @@
 from rest_framework import viewsets, status
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
-from .models import Building, SpaceType, Space, Reservation
+from django.shortcuts import get_object_or_404
+from .models import Building, SpaceType, Space, Reservation, FloorPlan
 from .serializers import (
     BuildingSerializer, SpaceTypeSerializer, 
     SpaceSerializer, ReservationSerializer
@@ -108,3 +109,12 @@ class ReservationViewSet(viewsets.ModelViewSet):
         reservation.save()
         
         return Response({'status': 'Reserva cancelada'})
+
+@api_view(['GET'])
+def get_floor_plan(request, plan_id):
+    floor_plan = get_object_or_404(FloorPlan, id=plan_id)
+    return Response({
+        'plan_image': floor_plan.plan_image.url if hasattr(floor_plan.plan_image, 'url') else floor_plan.plan_image,
+        'floor_name': floor_plan.floor_name,
+        'building_name': floor_plan.building.name
+    })

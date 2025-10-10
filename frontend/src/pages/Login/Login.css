@@ -1,0 +1,228 @@
+@import '../StyleGeral.css';
+
+/* Reset default margins and ensure full viewport width */
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--background);
+  position: relative;
+}
+
+.rectangle-base {
+  background-color: #0069ad;
+  height: 7.45%; /* 62px/832px in mobile */
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.content-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+  position: relative;
+  z-index: 2;
+}
+
+.logo-CESMAC-desktop {
+  display: none;
+}
+
+.logo-CESMAC-mobile {
+  width: 62.87%;
+  height: auto;
+  object-fit: contain;
+}
+
+.portal-title {
+  color: #4B5B60;
+  font-size: 26px;
+  font-weight: 700;
+  margin-top: 40px;
+  text-align: center;
+  width: 87.56%;
+}
+
+.welcome-text {
+  color: #0069ad;
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 30px;
+  text-align: left;
+  align-self: flex-start;
+  margin-left: 6.22%;
+  width: 87.56%;
+}
+
+.login-form {
+  width: 87.56%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.input-container {
+  position: relative;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+}
+
+.login-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 12px 0 40px;
+  border: 1px solid #E1E1E1;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.login-button {
+  width: 100%;
+  height: 44px;
+  margin-top: 24px;
+  background-color: #0069ad;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-message {
+  color: #ff0000;
+  font-size: 14px;
+  margin-top: 8px;
+  text-align: left;
+  width: 100%;
+  visibility: hidden;
+}
+
+.error-message.visible {
+  visibility: visible;
+}
+
+/* Mobile Mode (landscape - width > height) */
+@media (max-aspect-ratio: 1/1) {
+  .image {
+    display: none;
+  }
+
+  .logo-CESMAC-desktop {
+    display: none;
+  }
+
+  .logo-CESMAC-mobile {
+    display: block;
+  }
+}
+
+/* Desktop Mode (portrait - height >= width) */
+@media (min-aspect-ratio: 1/1) {
+  .login {
+    flex-direction: row;
+    justify-content: flex-start;
+    height: 100vh;
+    width: 100%;
+  }
+
+  .rectangle-base {
+    background-color: #ffffff;
+    height: 11.30%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    z-index: 100;
+  }
+
+  .content-container {
+    width: 44.69%;
+    align-items: flex-start;
+    padding-top: 0;
+    position: absolute;
+    top: 26.80%; /* 223px/832px */
+    left: 7.81%; /* 100px/1280px */
+  }
+
+  .portal-title {
+    color: #4B5B60;
+    font-size: 26px;
+    margin: 0;
+    padding: 0;
+    width: 66%; /* 352px/1280px */
+  }
+
+  .welcome-text {
+    position: relative;
+    margin: 30px 0;
+    padding: 0;
+  }
+
+  .login-form {
+    position: relative;
+    width: 66%; /* 352px/1280px */
+    z-index: 2;
+    margin: 0;
+  }
+
+  .image {
+    display: block;
+    height: 100%;
+    width: 55.31%; /* 708px/1280px */
+    object-fit: cover;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1;
+  }
+
+  .logo-CESMAC-desktop {
+    display: block;
+    height: 51%;
+    width: 14%;
+    margin-left: 7.81%;
+  }
+
+  .logo-CESMAC-mobile {
+    display: none;
+  }
+
+  .input-container {
+    margin-bottom: 16px;
+  }
+
+  .login-input {
+    height: 44px;
+  }
+
+  .login-button {
+    margin-top: 24px;
+  }
+}

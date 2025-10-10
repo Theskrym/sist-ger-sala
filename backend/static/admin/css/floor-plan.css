@@ -1,0 +1,50 @@
+.floor-plan-container {
+    position: relative;
+    margin: 20px 0;
+    max-width: 800px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background: #f9f9f9;
+}
+
+.floor-plan-preview {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: 1px dashed #ccc;
+    margin-bottom: 10px;
+}
+
+.floor-plan-preview p {
+    color: #666;
+    font-style: italic;
+}
+
+.floor-plan-image {
+    max-width: 100%;
+    height: auto;
+    display: none;
+    cursor: crosshair;
+}
+
+.location-marker {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    display: none;
+    box-shadow: 0 0 0 2px white, 0 0 0 3px red;
+}
+
+.floor-plan-container::before {
+    content: "Clique na imagem para marcar a localização";
+    display: block;
+    margin-bottom: 10px;
+    color: #666;
+    font-style: italic;
+}

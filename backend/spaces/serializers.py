@@ -14,7 +14,7 @@ class SpaceTypeSerializer(serializers.ModelSerializer):
 
 class SpaceSerializer(serializers.ModelSerializer):
     building_name = serializers.CharField(source='building.name', read_only=True)
-    space_type_name = serializers.CharField(source='space_type.name', read_only=True)
+    space_type_name = serializers.CharField(source='space_type.type', read_only=True)  # Changed from space_type.name to space_type.type
     
     class Meta:
         model = Space
