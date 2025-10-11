@@ -15,14 +15,29 @@ class FloorPlanAdmin(admin.ModelAdmin):
     list_display = ['building', 'floor_name', 'image_preview']
     list_filter = ['building']
     search_fields = ['building__name', 'floor_name']
+    exclude = ['plan_image_url']
 
     def image_preview(self, obj):
         if obj.plan_image:
-            return format_html('<img src="{}" width="100" />', obj.plan_image.url)
-        elif obj.plan_image_url:
-            return format_html('<img src="{}" width="100" />', obj.plan_image_url)
+            return format_html('<img src="{}" style="max-width: 300px; max-height: 200px;" />', obj.plan_image.url)
         return "No Image"
     image_preview.short_description = 'Preview'
+
+    class Media:
+        css = {
+            'all': ('admin/css/floor-plan.css',)
+        }
+        js = ('admin/js/floor-plan.js',)
+
+    fieldsets = (
+        (None, {
+            'fields': ('building', 'floor_name')
+        }),
+        ('Imagem', {
+            'fields': ('plan_image',),
+            'classes': ('wide',)
+        }),
+    )
 
 class SpaceTypeAdmin(admin.ModelAdmin):
     list_display = ['type', 'description']

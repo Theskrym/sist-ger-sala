@@ -1,0 +1,314 @@
+.agendamento-container {
+  width: 402px;
+  min-height: 100vh;
+  background-color: #F5F5F5;
+}
+
+.header {
+  position: fixed;
+  width: 402px;
+  z-index: 100;
+}
+
+.header-bar {
+  background-color: #0069AD;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  height: 26px;
+}
+
+.user-bar {
+  background-color: #FFFFFF;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.username {
+  font-weight: bold;
+}
+
+.add-button {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #0069AD;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.main-content {
+  padding: 140px 20px 20px;
+}
+
+.agendamento-card {
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  padding: 0; /* Remove padding */
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-content {
+  display: flex;
+  gap: 0; /* Remove gap */
+}
+
+.card-left {
+  flex-shrink: 0;
+}
+
+.card-right {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 15px; /* Move padding to card-right */
+  padding-right: 105px; /* Increased right padding for more space */
+}
+
+.header-buttons {
+  position: absolute;
+  right: 15px; /* Added right margin */
+  top: 50%;  /* Center vertically */
+  transform: translateY(-50%);  /* Center vertically */
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Increased gap between buttons */
+  align-items: center; /* Center buttons horizontally */
+}
+
+.edit-button, .cancel-button-small {
+  padding: 4px 12px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  min-width: 72px;
+  height: 28px; /* Increased height */
+  text-align: center;
+  margin: 0;
+  box-shadow: none;
+  transition: all 0.2s;
+  text-transform: capitalize; /* Changed from uppercase to capitalize */
+  line-height: 16px; /* Added to center text vertically */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-button {
+  background-color: #F8C400;
+  color: #FFFFFF; /* Changed from #000 to white */
+  border: 1px solid #F8C400;
+}
+
+.cancel-button-small {
+  background: transparent;
+  border: 1px solid #FF3B30;
+  color: #FF3B30;
+}
+
+.card-right {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.local-info {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.building-icon {
+  width: 90px; /* Increased width */
+  height: 100%; /* Fill full height */
+  background-color: #31B2E3;
+  border-radius: 10px 0 0 10px; /* Round only left corners */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.campus-icon {
+  width: 35px; /* Slightly larger icon */
+  height: 35px;
+  margin-bottom: 8px;
+}
+
+.campus-name {
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  padding: 0 5px;
+}
+
+.local-details {
+  margin: 0;
+}
+
+.local-details h3 {
+  color: #0069AD;
+  font-size: 16px;
+  margin: 0;
+  margin-bottom: 4px;
+}
+
+.local-details p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.agendamento-info {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px; /* Reduced from 4px */
+  margin-top: -15px; /* Move items up closer to laboratory name */
+}
+
+.agendamento-info p {
+  color: #666;
+  margin: 0;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.agendamento-info p::before {
+  color: #31B2E3;
+  margin-right: 2px; /* Reduced from 4px */
+}
+
+.agendamento-info p:nth-child(1)::before {
+  content: "Data:";
+}
+
+.agendamento-info p:nth-child(2)::before {
+  content: "Horário:";
+}
+
+.agendamento-info p:nth-child(3)::before {
+  content: "Pessoas:";
+  color: #31B2E3;
+}
+
+.status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.status.pendente {
+  background-color: #FFF3CD;
+  color: #856404;
+}
+
+.status.confirmado {
+  background-color: #D4EDDA;
+  color: #155724;
+}
+
+.status.cancelado {
+  background-color: #F8D7DA;
+  color: #721C24;
+}
+
+.status.realizado {
+  background-color: #CCE5FF;
+  color: #004085;
+}
+
+.cancel-button {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #DC3545;
+  background: none;
+  color: #DC3545;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.cancel-button:hover {
+  background-color: #FF3B30;
+  color: white;
+}
+
+.ver-mais {
+  width: 100%;
+  padding: 10px;
+  background: none;
+  border: none;
+  color: #0069AD;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.novo-agendamento {
+  margin-top: 30px;
+}
+
+.filtro {
+  display: flex;
+  gap: 10px;
+}
+
+.filtro select {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #DDD;
+  border-radius: 4px;
+}
+
+.search-button {
+  width: 40px;
+  height: 40px;
+  background-color: #0069AD;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+h3 {
+  margin: 0;
+  color: #0069AD;
+}
+
+p {
+  margin: 5px 0;
+  color: #666;
+}

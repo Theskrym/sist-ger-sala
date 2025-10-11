@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Login } from './pages/Login/Login';
-//import { Agendamento } from './pages/Agendamento/Agendamento';
+import { Agendamento } from './pages/Agendamento/Agendamento';
 import './pages/StyleGeral.css';
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -18,8 +18,7 @@ function App() {
           path="/agendamento" 
           element={
             <PrivateRoute>
-              {/* <Agendamento /> */}
-              <div>Agendamento Page Placeholder</div>
+              <Agendamento />
             </PrivateRoute>
           } 
         />

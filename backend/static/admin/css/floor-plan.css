@@ -2,22 +2,48 @@
     position: relative;
     margin: 20px 0;
     max-width: 800px;
-    min-height: 200px;
     border: 1px solid #ddd;
     padding: 10px;
     background: #f9f9f9;
 }
 
 .floor-plan-preview {
-    min-height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #f9f9f9;
 }
 
-.floor-plan-preview p {
+.floor-plan-preview h3 {
+    margin: 0 0 15px 0;
     color: #666;
-    font-style: italic;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.floor-plan-preview img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.image-preview-field {
+    margin: 10px 0;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.image-preview-field img {
+    max-width: 300px;
+    max-height: 200px;
+    display: block;
+    margin: 10px 0;
 }
 
 .floor-plan-image {
@@ -110,4 +136,15 @@
 
 .datetime input {
     max-width: 150px !important;
+}
+
+/* Garantir que o campo de upload de imagem fique sempre visível */
+.form-row .file-upload {
+    display: block !important;
+    margin: 10px 0;
+}
+
+.form-row input[type="file"] {
+    display: block !important;
+    margin: 5px 0;
 }
